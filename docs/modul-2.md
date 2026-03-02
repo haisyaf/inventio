@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Modul 2 - Perancangan SDLC Pengembangan Produk
+title: Modul 2 - Perancangan Produk (SDLC)
 nav_order: 3
 ---
 
