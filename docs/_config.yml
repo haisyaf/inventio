@@ -1,4 +1,12 @@
-theme: jekyll-theme-cayman
+remote_theme: just-the-docs/just-the-docs
 title: Inventio
 description: Documentation for Inventio project
+
+# Just the Docs settings
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+
+# Footer
+footer_content: "© 2026 Inventio Team – Senior Project TI UGM"
 
