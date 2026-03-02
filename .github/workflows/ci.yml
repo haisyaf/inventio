@@ -1,0 +1,75 @@
+name: Safe Simple CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, xml, curl, zip, pdo, sqlite
+
+      - name: Install PHP dependencies
+        run: |
+          if [ -f composer.json ]; then
+            echo "Composer file found, installing dependencies..."
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+          else
+            echo "No composer.json found, skipping composer install"
+          fi
+
+      - name: Setup Laravel environment
+        run: |
+          if [ -f artisan ]; then
+            echo "Laravel project detected"
+            cp .env.example .env 2>/dev/null || echo "APP_KEY=" > .env
+            php artisan key:generate
+          else
+            echo "No artisan file found, skipping Laravel setup"
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: |
+          if [ -f frontend/package.json ]; then
+            echo "Frontend project detected"
+            cd frontend
+            npm ci
+          else
+            echo "No frontend package.json found, skipping frontend install"
+          fi
+
+      - name: Build frontend
+        run: |
+          if [ -f frontend/package.json ]; then
+            echo "Building frontend..."
+            cd frontend
+            npm run build
+          else
+            echo "No frontend package.json found, skipping build"
+          fi
+
+      - name: Run PHPUnit tests
+        run: |
+          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then
+            echo "Running PHPUnit tests..."
+            php artisan test
+          else
+            echo "No PHPUnit config found, skipping tests"
+          fi
