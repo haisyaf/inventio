@@ -4,7 +4,7 @@ title: Modul 2 - Perancangan SDLC Pengembangan Produk
 nav_order: 3
 ---
 
-# Modul 2 – Perancangan SDLC Pengembangan Produk
+# Modul 2 – Perancangan Produk (SDLC)
 
 ---
 
