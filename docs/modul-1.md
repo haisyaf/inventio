@@ -5,13 +5,6 @@ nav_order: 2
 ---
 
 # Modul 1 – Perumusan Masalah
-{: .no_toc }
-
-## Table of contents
-{: .no_toc .text-delta }
-
-1. TOC
-{:toc}
 
 ---
 
@@ -75,64 +68,11 @@ Keunggulan solusi:
 
 ## Analisis Kompetitor
 
-### Kompetitor 1: Mekari Jurnal
-
-**Jenis Produk:** Software akuntansi berbasis cloud  
-**Jenis Kompetitor:** Direct Competitor  
-
-**Kelebihan:**
-- All-in-one system (inventory, akuntansi, pajak)
-- Monitoring stok real-time
-- Fitur lengkap dan profesional
-- Skalabel untuk bisnis besar
-
-**Kekurangan:**
-- Terlalu kompleks untuk UMKM kecil
-- Kurva pembelajaran tinggi
-- Mirip sistem ERP yang kompleks
-
-**Kesimpulan:**  
-Inventio lebih sederhana dan fokus pada kebutuhan UMKM kecil.
-
----
-
-### Kompetitor 2: Majoo
-
-**Jenis Produk:** POS dan Manajemen Inventori  
-**Jenis Kompetitor:** Indirect Competitor  
-
-**Kelebihan:**
-- Mudah digunakan
-- Integrasi langsung dengan POS
-- Cocok untuk retail dan F&B
-
-**Kekurangan:**
-- Fitur lanjutan berbayar
-- Tidak fokus khusus pada inventaris
-- Kurang optimal untuk UMKM non-retail
-
-**Kesimpulan:**  
-Inventio fokus pada inventaris tanpa kompleksitas POS.
-
----
-
-### Kompetitor 3: Jubelio
-
-**Jenis Produk:** Sistem Omnichannel dan Inventory  
-**Jenis Kompetitor:** Indirect Competitor  
-
-**Kelebihan:**
-- Sinkronisasi marketplace
-- Cocok untuk bisnis online
-- Sistem terpusat
-
-**Kekurangan:**
-- Kompleks untuk UMKM kecil
-- Tidak cocok untuk bisnis offline sederhana
-- Implementasi lebih sulit
-
-**Kesimpulan:**  
-Inventio lebih sederhana dan cocok untuk UMKM kecil dan pemula.
+| Kompetitor | Jenis Produk | Tipe Kompetitor | Kelebihan | Kekurangan | Kesimpulan |
+|------------|--------------|-----------------|-----------|------------|------------|
+| **Mekari Jurnal** | Software akuntansi berbasis cloud | Direct Competitor | • All-in-one system (inventory, akuntansi, pajak)<br>• Monitoring stok real-time<br>• Fitur lengkap dan profesional<br>• Skalabel untuk bisnis besar | • Terlalu kompleks untuk UMKM kecil<br>• Kurva pembelajaran tinggi<br>• Mirip sistem ERP yang kompleks | Inventio lebih sederhana dan fokus pada kebutuhan UMKM kecil |
+| **Majoo** | POS dan Manajemen Inventori | Indirect Competitor | • Mudah digunakan<br>• Integrasi langsung dengan POS<br>• Cocok untuk retail dan F&B | • Fitur lanjutan berbayar<br>• Tidak fokus khusus pada inventaris<br>• Kurang optimal untuk UMKM non-retail | Inventio fokus pada inventaris tanpa kompleksitas POS |
+| **Jubelio** | Sistem Omnichannel dan Inventory | Indirect Competitor | • Sinkronisasi marketplace<br>• Cocok untuk bisnis online<br>• Sistem terpusat | • Kompleks untuk UMKM kecil<br>• Tidak cocok untuk bisnis offline sederhana<br>• Implementasi lebih sulit | Inventio lebih sederhana dan cocok untuk UMKM kecil dan pemula |
 
 ---
 
