@@ -75,23 +75,6 @@ Kebutuhan:
 
 ![Use Case Diagram Inventio](assets\use-case.jpeg)
 
-### Deskripsi Use Case
-
-Aktor dalam sistem:
-
-- **Super Admin** – mengelola tenant dan pengaturan sistem
-- **Admin** – mengelola data barang, kategori, supplier, gudang, dan laporan
-- **Staff** – melakukan transaksi stok masuk dan keluar
-
-Use case utama:
-
-| Aktor | Use Case |
-|-------|----------|
-| Super Admin | Login, Kelola Tenant |
-| Admin | Login, Kelola Barang, Kelola Kategori, Kelola Supplier, Kelola Gudang, Lihat Laporan, Lihat Dashboard |
-| Staff | Login, Transaksi Stok Masuk, Transaksi Stok Keluar, Lihat Daftar Barang |
-| Sistem | Notifikasi Stok Minimum (otomatis) |
-
 ---
 
 ## Functional Requirements
