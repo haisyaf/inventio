@@ -12,6 +12,8 @@ datasource db {
   provider = "postgresql"
 }
 
+// TABLES
+
 model Tenant {
   id        String   @id @default(uuid())
   name      String
@@ -32,6 +34,7 @@ model Tenant {
   transaction_types TransactionType[]
   transactions      Transaction[]
   stockMovements    StockMovement[]
+  subscriptions     Subscription[]
 }
 
 model User {
@@ -40,6 +43,7 @@ model User {
   name      String
   email     String   @unique
   password  String
+  role      UserRole @default(MEMBER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -202,4 +206,42 @@ model StockMovement {
   transaction Transaction @relation(fields: [transactionId], references: [id])
   warehouse   Warehouse   @relation(fields: [warehouseId], references: [id])
   product     Product     @relation(fields: [productId], references: [id])
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  tenantId  String
+  planId    String
+  startDate DateTime
+  endDate   DateTime
+  status    SubscriptionStatus
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  tenant Tenant           @relation(fields: [tenantId], references: [id])
+  plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+}
+
+model SubscriptionPlan {
+  id        String   @id @default(uuid())
+  name      String
+  features  Json
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
+
+// ENUMS
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
 }
