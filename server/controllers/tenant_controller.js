@@ -31,6 +31,21 @@ exports.registerTenant = async (req, res) => {
       },
     });
 
+    const freePlan = await prisma.subscriptionPlan.findFirst({
+      where: { name: "Free" },
+    });
+    if (freePlan) {
+      await prisma.subscription.create({
+        data: {
+          tenantId: tenant.id,
+          planId: freePlan.id,
+          status: "ACTIVE",
+          startDate: new Date(),
+          endDate: new Date(new Date().setMonth(new Date().getMonth() + 2)),
+        },
+      });
+    }
+
     const token = jwt.sign(
       { userId: user.id, tenantId: tenant.id, role: user.role },
       process.env.JWT_SECRET,
