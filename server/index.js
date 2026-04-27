@@ -2,10 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-const authRoutes = require("./routes/auth.routes");
-const tenantRoutes = require("./routes/tenant.routes");
+const authRoutes = require("./routes/auth_routes");
+const tenantRoutes = require("./routes/tenant_routes");
+const inviteRoutes = require("./routes/invite_routes");
 
-const authMiddleware = require("./middleware/auth.middleware");
+const authMiddleware = require("./middlewares/auth_middleware");
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tenants", tenantRoutes);
-
+app.use("/api/invites", inviteRoutes);
 app.get("/", (req, res) => {
   res.send("Inventio API is running!");
 });
