@@ -35,6 +35,7 @@ model Tenant {
   transactions      Transaction[]
   stockMovements    StockMovement[]
   subscriptions     Subscription[]
+  forecasts         Forecast[]
 }
 
 model User {
@@ -92,6 +93,7 @@ model Product {
   stocks           Stock[]
   transactionItems TransactionItem[]
   stockMovements   StockMovement[]
+  forecasts        Forecast[]
 }
 
 model Warehouse {
@@ -233,6 +235,23 @@ model SubscriptionPlan {
   subscriptions Subscription[]
 }
 
+model Forecast {
+  id        String @id @default(uuid())
+  tenantId  String
+  productId String
+
+  type          ForecastType // Jenis forecast, misal: STOCK_DEMAND
+  forecastValue Float // Nilai prediksi, misal: 28 atau 550000
+  unit          String // Satuan, misal: "units" atau "IDR"
+  forecastDate  DateTime // Tanggal prediksi
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
 // ENUMS
 enum SubscriptionStatus {
   ACTIVE
@@ -244,4 +263,10 @@ enum SubscriptionStatus {
 enum UserRole {
   ADMIN
   MEMBER
+}
+
+enum ForecastType {
+  STOCK_DEMAND
+  SALES_REVENUE
+  PURCHASE_COST
 }
