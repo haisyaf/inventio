@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const inviteController = require("../controllers/invite_controller");
-const authMiddleware = require("../middleware/auth_middleware");
-const adminMiddleware = require("../middleware/admin_middleware");
+const authMiddleware = require("../middlewares/auth_middleware");
+const adminMiddleware = require("../middlewares/admin_middleware");
 
 router.post(
   "/",

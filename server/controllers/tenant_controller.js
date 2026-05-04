@@ -1,8 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
+const prisma = require("../lib/prisma");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const prisma = new PrismaClient();
 
 // Register a new tenant
 exports.registerTenant = async (req, res) => {
