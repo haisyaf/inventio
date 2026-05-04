@@ -30,7 +30,7 @@ exports.registerTenant = async (req, res) => {
     });
 
     const freePlan = await prisma.subscriptionPlan.findFirst({
-      where: { name: "Free" },
+      where: { name: "Basic" },
     });
     if (freePlan) {
       await prisma.subscription.create({
