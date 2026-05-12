@@ -15,6 +15,7 @@ const transactionRoutes = require("./routes/transaction_routes");
 const stockRoutes = require("./routes/stock_routes");
 const stockMovementRoutes = require("./routes/stock_movement_routes");
 const forecastRoutes = require("./routes/forecast_routes");
+const subscriptionRoutes = require("./routes/subscription_routes");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use("/api/transactions", transactionRoutes);
 app.use("/api/stocks", stockRoutes);
 app.use("/api/stock-movements", stockMovementRoutes);
 app.use("/api/forecasts", forecastRoutes);
+app.use("/api", subscriptionRoutes);
 app.get("/", (req, res) => {
   res.send("Inventio API is running!");
 });

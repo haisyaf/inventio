@@ -23,6 +23,7 @@ const swaggerSpec = swaggerJSDoc({
       { name: "Stocks" },
       { name: "Stock Movements" },
       { name: "Forecasts" },
+      { name: "Subscriptions" },
     ],
     components: {
       securitySchemes: {
@@ -134,6 +135,63 @@ const swaggerSpec = swaggerJSDoc({
             token: { type: "string" },
             userId: { type: "string" },
             tenantId: { type: "string" },
+          },
+          additionalProperties: true,
+        },
+        SubscriptionPlan: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            name: { type: "string" },
+            features: { type: "object", additionalProperties: true },
+            price: { type: "number" },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
+          },
+          additionalProperties: true,
+        },
+        Subscription: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            tenantId: { type: "string" },
+            planId: { type: "string" },
+            startDate: { type: "string", format: "date-time" },
+            endDate: { type: "string", format: "date-time" },
+            status: { type: "string" },
+            plan: { $ref: "#/components/schemas/SubscriptionPlan" },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" },
+          },
+          additionalProperties: true,
+        },
+        SubscriptionCheckoutRequest: {
+          type: "object",
+          required: ["planId"],
+          properties: {
+            planId: { type: "string" },
+            paymentType: { type: "string", example: "bank_transfer" },
+            bank: { type: "string", example: "bca" },
+          },
+        },
+        SubscriptionCheckoutResponse: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+            orderId: { type: "string" },
+            paymentType: { type: "string" },
+            transactionStatus: { type: "string" },
+            vaNumbers: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  bank: { type: "string" },
+                  va_number: { type: "string" },
+                },
+              },
+            },
+            bank: { type: "string" },
           },
           additionalProperties: true,
         },

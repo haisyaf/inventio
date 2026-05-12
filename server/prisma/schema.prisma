@@ -24,18 +24,19 @@ model Tenant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users             User[]
-  invites           Invite[]
-  categories        Category[]
-  products          Product[]
-  warehouses        Warehouse[]
-  suppliers         Supplier[]
-  stocks            Stock[]
-  transaction_types TransactionType[]
-  transactions      Transaction[]
-  stockMovements    StockMovement[]
-  subscriptions     Subscription[]
-  forecasts         Forecast[]
+  users                User[]
+  invites              Invite[]
+  categories           Category[]
+  products             Product[]
+  warehouses           Warehouse[]
+  suppliers            Supplier[]
+  stocks               Stock[]
+  transaction_types    TransactionType[]
+  transactions         Transaction[]
+  stockMovements       StockMovement[]
+  subscriptions        Subscription[]
+  subscriptionPayments SubscriptionPayment[]
+  forecasts            Forecast[]
 }
 
 model User {
@@ -222,6 +223,8 @@ model Subscription {
 
   tenant Tenant           @relation(fields: [tenantId], references: [id])
   plan   SubscriptionPlan @relation(fields: [planId], references: [id])
+
+  payments SubscriptionPayment[]
 }
 
 model SubscriptionPlan {
@@ -233,6 +236,27 @@ model SubscriptionPlan {
   updatedAt DateTime @updatedAt
 
   subscriptions Subscription[]
+  payments      SubscriptionPayment[]
+}
+
+model SubscriptionPayment {
+  id                String        @id @default(uuid())
+  tenantId          String
+  planId            String
+  subscriptionId    String?
+  orderId           String        @unique
+  grossAmount       Float
+  paymentType       String
+  status            PaymentStatus
+  transactionId     String?
+  transactionStatus String?
+  gatewayResponse   Json?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  tenant       Tenant           @relation(fields: [tenantId], references: [id])
+  plan         SubscriptionPlan @relation(fields: [planId], references: [id])
+  subscription Subscription?    @relation(fields: [subscriptionId], references: [id])
 }
 
 model Forecast {
@@ -258,6 +282,14 @@ enum SubscriptionStatus {
   PAST_DUE
   CANCELED
   UNPAID
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  CANCELED
 }
 
 enum UserRole {
