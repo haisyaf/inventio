@@ -11,6 +11,9 @@ const categoryRoutes = require("./routes/category_routes");
 const warehouseRoutes = require("./routes/warehouse_routes");
 const supplierRoutes = require("./routes/supplier_routes");
 const productRoutes = require("./routes/product_routes");
+const transactionRoutes = require("./routes/transaction_routes");
+const stockRoutes = require("./routes/stock_routes");
+const stockMovementRoutes = require("./routes/stock_movement_routes");
 const forecastRoutes = require("./routes/forecast_routes");
 
 const app = express();
@@ -27,6 +30,9 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/warehouses", warehouseRoutes);
 app.use("/api/suppliers", supplierRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/stocks", stockRoutes);
+app.use("/api/stock-movements", stockMovementRoutes);
 app.use("/api/forecasts", forecastRoutes);
 app.get("/", (req, res) => {
   res.send("Inventio API is running!");
