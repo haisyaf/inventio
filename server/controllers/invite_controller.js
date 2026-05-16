@@ -1,6 +1,7 @@
 const prisma = require("../lib/prisma");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const sendEmail = require("../utils/email_sender");
 
 exports.createInvite = async (req, res) => {
   const { email } = req.body;
@@ -29,7 +30,16 @@ exports.createInvite = async (req, res) => {
       },
     });
 
-    // TO DO: Pakai util email sender untuk kirim email undangan
+    const feUrl = process.env.FE_URL || "http://localhost:3000";
+    const inviteLink = `${feUrl}/invite/accept?token=${token}`;
+
+    await sendEmail(
+      email,
+      "Undangan bergabung ke Inventio",
+      `<p>Anda diundang untuk bergabung ke tim di Inventio.</p>
+       <p>Klik link berikut untuk mendaftar (berlaku 24 jam):</p>
+       <a href="${inviteLink}">${inviteLink}</a>`
+    );
 
     res.status(201).json({ message: "Invite created successfully.", invite });
   } catch (error) {
