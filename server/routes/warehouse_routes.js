@@ -8,6 +8,8 @@ const {
   deleteWarehouse,
 } = require("../controllers/warehouse_controller");
 const authMiddleware = require("../middlewares/auth_middleware");
+const { requireLimit } = require("../middlewares/feature_middleware");
+const prisma = require("../lib/prisma");
 
 router.use(authMiddleware);
 
@@ -58,7 +60,13 @@ router.use(authMiddleware);
  *         $ref: '#/components/responses/ServerError'
  */
 router.get("/", getWarehouses);
-router.post("/", createWarehouse);
+router.post(
+  "/",
+  requireLimit("maxWarehouses", (tenantId) =>
+    prisma.warehouse.count({ where: { tenantId } })
+  ),
+  createWarehouse
+);
 
 /**
  * @openapi

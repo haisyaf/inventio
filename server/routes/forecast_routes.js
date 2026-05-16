@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const forecastController = require("../controllers/forecast_controller");
 const authMiddleware = require("../middlewares/auth_middleware");
+const { requireFeature } = require("../middlewares/feature_middleware");
 
 /**
  * @openapi
@@ -37,7 +38,7 @@ const authMiddleware = require("../middlewares/auth_middleware");
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
-router.post("/request", authMiddleware, forecastController.requestForecast);
+router.post("/request", authMiddleware, requireFeature("forecast"), forecastController.requestForecast);
 
 /**
  * @openapi
