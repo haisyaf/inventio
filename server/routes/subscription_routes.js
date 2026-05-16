@@ -51,6 +51,78 @@ router.get("/subscriptions/me", auth, subscriptionController.getMySubscription);
 
 /**
  * @openapi
+ * /api/subscriptions/checkout-snap:
+ *   post:
+ *     tags: [Subscriptions]
+ *     summary: Create Snap payment (returns redirect_url & token)
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [planId]
+ *             properties:
+ *               planId:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Snap payment created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SnapCheckoutResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequestError'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
+router.post(
+  "/subscriptions/checkout-snap",
+  auth,
+  subscriptionController.checkoutSnap,
+);
+
+/**
+ * @openapi
+ * /api/subscriptions/checkout-qris:
+ *   post:
+ *     tags: [Subscriptions]
+ *     summary: Create QRIS payment
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [planId]
+ *             properties:
+ *               planId:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: QRIS payment created with qrUrl
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/QrisCheckoutResponse'
+ *       400:
+ *         $ref: '#/components/responses/BadRequestError'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ */
+router.post(
+  "/subscriptions/checkout-qris",
+  auth,
+  subscriptionController.checkoutQris,
+);
+
+/**
+ * @openapi
  * /api/subscriptions/checkout:
  *   post:
  *     tags: [Subscriptions]
@@ -81,6 +153,38 @@ router.post(
   "/subscriptions/checkout",
   auth,
   subscriptionController.checkoutSubscription,
+);
+
+/**
+ * @openapi
+ * /api/subscriptions/payment/{orderId}:
+ *   get:
+ *     tags: [Subscriptions]
+ *     summary: Check payment status from Midtrans
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Payment status
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PaymentStatusResponse'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ */
+router.get(
+  "/subscriptions/payment/:orderId",
+  auth,
+  subscriptionController.getPaymentStatus,
 );
 
 /**

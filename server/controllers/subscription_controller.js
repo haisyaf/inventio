@@ -12,6 +12,12 @@ const coreApi = new midtransClient.CoreApi({
   clientKey,
 });
 
+const snap = new midtransClient.Snap({
+  isProduction,
+  serverKey,
+  clientKey,
+});
+
 function addMonths(date, months) {
   const next = new Date(date.getTime());
   next.setMonth(next.getMonth() + months);
@@ -19,7 +25,8 @@ function addMonths(date, months) {
 }
 
 function buildOrderId(tenantId) {
-  return `SUBS-${tenantId}-${Date.now()}`;
+  // Midtrans max order_id = 50 chars; use last 8 chars of tenantId + timestamp
+  return `SUBS-${tenantId.slice(-8)}-${Date.now()}`;
 }
 
 function normalizePaymentStatus(transactionStatus) {
@@ -89,6 +96,154 @@ exports.getMySubscription = async (req, res) => {
   }
 };
 
+// Snap checkout — returns a redirect_url to Midtrans payment page
+exports.checkoutSnap = async (req, res) => {
+  try {
+    const { tenantId } = req.userData;
+    const { planId } = req.body;
+
+    if (!planId) {
+      return res.status(400).json({ message: "planId is required" });
+    }
+
+    if (!serverKey) {
+      return res
+        .status(500)
+        .json({ message: "Midtrans server key is not configured" });
+    }
+
+    const plan = await prisma.subscriptionPlan.findUnique({
+      where: { id: planId },
+    });
+
+    if (!plan) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    if (plan.price <= 0) {
+      const subscription = await upsertSubscription(tenantId, plan.id);
+      return res.status(200).json({ message: "Subscription activated", subscription });
+    }
+
+    const orderId = buildOrderId(tenantId);
+    const grossAmount = Math.round(plan.price);
+
+    const snapParams = {
+      transaction_details: {
+        order_id: orderId,
+        gross_amount: grossAmount,
+      },
+      item_details: [
+        {
+          id: plan.id,
+          price: grossAmount,
+          quantity: 1,
+          name: `Subscription: ${plan.name}`,
+        },
+      ],
+      credit_card: { secure: true },
+    };
+
+    const snapResponse = await snap.createTransaction(snapParams);
+
+    const payment = await prisma.subscriptionPayment.create({
+      data: {
+        tenantId,
+        planId: plan.id,
+        orderId,
+        grossAmount,
+        paymentType: "snap",
+        status: "PENDING",
+        transactionId: null,
+        transactionStatus: "pending",
+        gatewayResponse: snapResponse,
+      },
+    });
+
+    res.status(201).json({
+      message: "Payment created",
+      orderId: payment.orderId,
+      snapToken: snapResponse.token,
+      redirectUrl: snapResponse.redirect_url,
+      payment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// CoreApi checkout — QRIS
+exports.checkoutQris = async (req, res) => {
+  try {
+    const { tenantId } = req.userData;
+    const { planId } = req.body;
+
+    if (!planId) {
+      return res.status(400).json({ message: "planId is required" });
+    }
+
+    if (!serverKey) {
+      return res.status(500).json({ message: "Midtrans server key is not configured" });
+    }
+
+    const plan = await prisma.subscriptionPlan.findUnique({ where: { id: planId } });
+
+    if (!plan) {
+      return res.status(404).json({ message: "Plan not found" });
+    }
+
+    if (plan.price <= 0) {
+      const subscription = await upsertSubscription(tenantId, plan.id);
+      return res.status(200).json({ message: "Subscription activated", subscription });
+    }
+
+    const orderId = buildOrderId(tenantId);
+    const grossAmount = Math.round(plan.price);
+
+    const chargeParams = {
+      payment_type: "qris",
+      transaction_details: {
+        order_id: orderId,
+        gross_amount: grossAmount,
+      },
+    };
+
+    const chargeResponse = await coreApi.charge(chargeParams);
+
+    const qrUrl = chargeResponse.actions?.find((a) => a.name === "generate-qr-code")?.url || null;
+    const qrString = chargeResponse.qr_string || null;
+
+    const payment = await prisma.subscriptionPayment.create({
+      data: {
+        tenantId,
+        planId: plan.id,
+        orderId,
+        grossAmount,
+        paymentType: "qris",
+        status: normalizePaymentStatus(chargeResponse.transaction_status),
+        transactionId: chargeResponse.transaction_id || null,
+        transactionStatus: chargeResponse.transaction_status || null,
+        gatewayResponse: chargeResponse,
+      },
+    });
+
+    res.status(201).json({
+      message: "QRIS payment created",
+      orderId: payment.orderId,
+      qrUrl,
+      qrString,
+      expiryTime: chargeResponse.expiry_time || null,
+      payment,
+    });
+  } catch (error) {
+    console.error("QRIS checkout error:", error);
+    const midtransMsg = error?.ApiResponse?.status_message || error?.message || null;
+    res.status(500).json({ message: "Internal server error", detail: midtransMsg });
+  }
+};
+
+// CoreApi checkout — bank transfer (VA)
 exports.checkoutSubscription = async (req, res) => {
   try {
     const { tenantId } = req.userData;
@@ -165,6 +320,51 @@ exports.checkoutSubscription = async (req, res) => {
       bank: chargeResponse.bank || bank,
       payment,
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Manually check payment status from Midtrans and sync to DB
+exports.getPaymentStatus = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { tenantId } = req.userData;
+
+    const payment = await prisma.subscriptionPayment.findUnique({
+      where: { orderId },
+    });
+
+    if (!payment) {
+      return res.status(404).json({ message: "Payment not found" });
+    }
+
+    if (payment.tenantId !== tenantId) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    const statusResponse = await coreApi.transaction.status(orderId);
+    const paymentStatus = normalizePaymentStatus(statusResponse.transaction_status);
+
+    const updates = {
+      status: paymentStatus,
+      transactionId: statusResponse.transaction_id || payment.transactionId,
+      transactionStatus: statusResponse.transaction_status,
+      gatewayResponse: statusResponse,
+    };
+
+    if (paymentStatus === "PAID" && payment.status !== "PAID") {
+      const subscription = await upsertSubscription(payment.tenantId, payment.planId);
+      updates.subscriptionId = subscription.id;
+    }
+
+    const updated = await prisma.subscriptionPayment.update({
+      where: { orderId },
+      data: updates,
+    });
+
+    res.json({ payment: updated, midtransStatus: statusResponse.transaction_status });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });

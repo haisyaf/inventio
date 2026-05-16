@@ -195,6 +195,34 @@ const swaggerSpec = swaggerJSDoc({
           },
           additionalProperties: true,
         },
+        SnapCheckoutResponse: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+            orderId: { type: "string" },
+            snapToken: { type: "string" },
+            redirectUrl: { type: "string", example: "https://app.sandbox.midtrans.com/snap/v3/redirection/..." },
+          },
+          additionalProperties: true,
+        },
+        QrisCheckoutResponse: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
+            orderId: { type: "string" },
+            qrUrl: { type: "string", example: "https://api.sandbox.midtrans.com/v2/qris/.../qr-code" },
+            expiryTime: { type: "string", example: "2026-05-16 12:30:00" },
+          },
+          additionalProperties: true,
+        },
+        PaymentStatusResponse: {
+          type: "object",
+          properties: {
+            payment: { type: "object", additionalProperties: true },
+            midtransStatus: { type: "string", example: "settlement" },
+          },
+          additionalProperties: true,
+        },
         InviteCreateRequest: {
           type: "object",
           required: ["email"],
