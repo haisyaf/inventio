@@ -49,22 +49,25 @@ export default function DashboardPage() {
       label: "Total Produk",
       value: stats.products,
       icon: Package,
-      color: "#EFF6FF",
-      iconColor: "#2563EB",
+      color: "#ECFDF5",
+      iconColor: "#059669",
+      accent: "#059669",
     },
     {
       label: "Total Supplier",
       value: stats.suppliers,
       icon: Truck,
-      color: "#ECFDF5",
-      iconColor: "#059669",
+      color: "#EFF6FF",
+      iconColor: "#2563EB",
+      accent: "#2563EB",
     },
     {
       label: "Total Transaksi",
       value: stats.transactions,
       icon: Receipt,
       color: "#FFF7ED",
-      iconColor: "#EA580C",
+      iconColor: "#C2410C",
+      accent: "#C2410C",
     },
     {
       label: "Stok Rendah",
@@ -72,6 +75,7 @@ export default function DashboardPage() {
       icon: AlertTriangle,
       color: "#FEF2F2",
       iconColor: "#DC2626",
+      accent: "#DC2626",
     },
   ];
 
@@ -99,8 +103,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="stats-grid">
-        {STAT_CARDS.map(({ label, value, icon: Icon, color, iconColor }) => (
-          <div className="stat-card" key={label}>
+        {STAT_CARDS.map(({ label, value, icon: Icon, color, iconColor, accent }) => (
+          <div className="stat-card" key={label} style={{ "--stat-accent": accent }}>
             <div className="stat-card-header">
               <span className="stat-card-label">{label}</span>
               <div className="stat-card-icon" style={{ background: color }}>

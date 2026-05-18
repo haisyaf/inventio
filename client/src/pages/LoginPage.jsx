@@ -41,7 +41,7 @@ export default function LoginPage() {
           top: -250,
           right: -200,
           background:
-            "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(5,150,105,0.14) 0%, transparent 70%)",
         }}
       />
       <div
@@ -52,7 +52,7 @@ export default function LoginPage() {
           bottom: -200,
           left: -150,
           background:
-            "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(5,150,105,0.08) 0%, transparent 70%)",
         }}
       />
 

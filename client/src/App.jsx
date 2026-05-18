@@ -14,6 +14,7 @@ import TransactionsPage from "./pages/TransactionsPage";
 import ForecastPage from "./pages/ForecastPage";
 import UsersPage from "./pages/UsersPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
+import InviteAcceptPage from "./pages/InviteAcceptPage";
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/" element={<PublicHome />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/invite/accept" element={<InviteAcceptPage />} />
           <Route
             path="/:slug"
             element={

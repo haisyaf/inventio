@@ -3,6 +3,27 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../utils/email_sender");
 
+exports.getInvites = async (req, res) => {
+  const { tenantId } = req.userData;
+  try {
+    const invites = await prisma.invite.findMany({
+      where: { tenantId },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        email: true,
+        used: true,
+        expiresAt: true,
+        createdAt: true,
+      },
+    });
+    res.json(invites);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 exports.createInvite = async (req, res) => {
   const { email } = req.body;
   const { tenantId, userId } = req.userData;
@@ -30,7 +51,7 @@ exports.createInvite = async (req, res) => {
       },
     });
 
-    const feUrl = process.env.FE_URL || "http://localhost:3000";
+    const feUrl = process.env.FE_URL || "http://localhost:5173";
     const inviteLink = `${feUrl}/invite/accept?token=${token}`;
 
     await sendEmail(
@@ -38,7 +59,7 @@ exports.createInvite = async (req, res) => {
       "Undangan bergabung ke Inventio",
       `<p>Anda diundang untuk bergabung ke tim di Inventio.</p>
        <p>Klik link berikut untuk mendaftar (berlaku 24 jam):</p>
-       <a href="${inviteLink}">${inviteLink}</a>`
+       <a href="${inviteLink}">${inviteLink}</a>`,
     );
 
     res.status(201).json({ message: "Invite created successfully.", invite });

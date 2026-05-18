@@ -42,7 +42,8 @@ export default function Sidebar() {
   };
 
   const roleLabel = user?.role === "ADMIN" ? "Administrator" : "Member";
-  const initials = (user?.role ?? "U").charAt(0);
+  const initials = user?.role === "ADMIN" ? "A" : "M";
+  const tenantDisplay = slug ?? user?.tenantSlug ?? "—";
 
   return (
     <aside className="sidebar">
@@ -91,9 +92,7 @@ export default function Sidebar() {
           <div className="sidebar-avatar">{initials}</div>
           <div className="sidebar-user-info">
             <div className="sidebar-user-name">{roleLabel}</div>
-            <div className="sidebar-user-role">
-              {slug ?? user?.tenantSlug ?? "—"}
-            </div>
+            <div className="sidebar-user-role">{tenantDisplay}</div>
           </div>
         </div>
         <button className="sidebar-logout-btn" onClick={handleLogout}>

@@ -141,5 +141,6 @@ vite.config.ts.timestamp-*
 
 # Claude
 CLAUDE.md
+DESIGN.md
 .claude/
 skills-lock.json

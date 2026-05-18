@@ -39,6 +39,13 @@ const { requireFeature } = require("../middlewares/feature_middleware");
  *       500:
  *         $ref: '#/components/responses/ServerError'
  */
+router.get(
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  inviteController.getInvites,
+);
+
 router.post(
   "/",
   authMiddleware,
