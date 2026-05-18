@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // Register a new tenant
 exports.registerTenant = async (req, res) => {
-  const { tenantName, tenantSlug, userEmail, userName, password } = req.body;
+  const { tenantName, tenantSlug, userEmail, userName, password, planId } = req.body;
 
   try {
     const tenant = await prisma.tenant.create({
@@ -29,17 +29,23 @@ exports.registerTenant = async (req, res) => {
       },
     });
 
-    const freePlan = await prisma.subscriptionPlan.findFirst({
-      where: { name: "Basic" },
-    });
-    if (freePlan) {
+    let chosenPlan = null;
+    if (planId) {
+      chosenPlan = await prisma.subscriptionPlan.findUnique({ where: { id: planId } });
+    }
+    if (!chosenPlan) {
+      chosenPlan = await prisma.subscriptionPlan.findFirst({ where: { name: "Basic" } });
+    }
+
+    if (chosenPlan) {
+      const isPaid = chosenPlan.price > 0;
       await prisma.subscription.create({
         data: {
           tenantId: tenant.id,
-          planId: freePlan.id,
-          status: "ACTIVE",
+          planId: chosenPlan.id,
+          status: isPaid ? "UNPAID" : "ACTIVE",
           startDate: new Date(),
-          endDate: new Date(new Date().setMonth(new Date().getMonth() + 2)),
+          endDate: new Date(new Date().setMonth(new Date().getMonth() + (isPaid ? 1 : 2))),
         },
       });
     }
@@ -55,6 +61,7 @@ exports.registerTenant = async (req, res) => {
       token,
       userId: user.id,
       tenantId: tenant.id,
+      tenantSlug: tenant.slug,
     });
   } catch (error) {
     console.error(error);

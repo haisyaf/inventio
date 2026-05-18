@@ -33,6 +33,7 @@ exports.login = async (req, res) => {
       token,
       userId: user.id,
       tenantId: user.tenantId,
+      tenantSlug: user.tenant.slug,
       role: user.role,
     });
   } catch (error) {
