@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-export default function Modal({ isOpen, onClose, title, children, footer }) {
+export default function Modal({ isOpen, onClose, title, children, footer, maxWidth }) {
   if (!isOpen) return null;
 
   return (
@@ -8,7 +8,7 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
       className="modal-overlay"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="modal">
+      <div className="modal" style={maxWidth ? { maxWidth } : undefined}>
         <div className="modal-header">
           <h2 className="modal-title">{title}</h2>
           <button className="modal-close" onClick={onClose}>

@@ -99,7 +99,7 @@ const getHistoricalData = async ({
 
     const historicalData = transactionItems.map((row) => ({
       date: row.transaction.date,
-      value: normalizedType === "SALES_REVENUE" ? row.subtotal : row.quantity,
+      value: (normalizedType === "SALES_REVENUE" || normalizedType === "PURCHASE_COST") ? row.subtotal : row.quantity,
     }));
 
     results.push({

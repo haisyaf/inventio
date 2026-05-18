@@ -50,6 +50,17 @@ exports.registerTenant = async (req, res) => {
       });
     }
 
+    const defaultTransactionTypes = [
+      { name: "Pembelian", code: `PURCHASE_${tenant.id.slice(0, 8)}`, direction: "IN", affectsStock: true },
+      { name: "Penjualan", code: `SALE_${tenant.id.slice(0, 8)}`, direction: "OUT", affectsStock: true },
+      { name: "Penyesuaian Masuk", code: `ADJ_IN_${tenant.id.slice(0, 8)}`, direction: "IN", affectsStock: true },
+      { name: "Penyesuaian Keluar", code: `ADJ_OUT_${tenant.id.slice(0, 8)}`, direction: "OUT", affectsStock: true },
+    ];
+
+    await prisma.transactionType.createMany({
+      data: defaultTransactionTypes.map((t) => ({ ...t, tenantId: tenant.id })),
+    });
+
     const token = jwt.sign(
       { userId: user.id, tenantId: tenant.id, role: user.role },
       process.env.JWT_SECRET,

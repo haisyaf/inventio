@@ -92,6 +92,8 @@ export default function ForecastPage() {
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [requesting, setRequesting] = useState(false);
   const [requestModal, setRequestModal] = useState(false);
+  const [horizon, setHorizon] = useState(3);
+  const [period, setPeriod] = useState("monthly");
   const [searched, setSearched] = useState(false);
   const [toast, setToast] = useState(null);
   const [featureBlocked, setFeatureBlocked] = useState(false);
@@ -136,7 +138,7 @@ export default function ForecastPage() {
       const res = await api.post("/forecasts/request", {
         forecastType: selectedType,
         items: [{ itemId: selectedProduct }],
-        forecastParameters: {},
+        forecastParameters: { period, horizon: Number(horizon) },
       });
       setToast({
         message: `Forecast berhasil diproses — ${res.savedCount ?? 0} data tersimpan`,
@@ -350,6 +352,31 @@ export default function ForecastPage() {
             <div className="forecast-confirm-item">
               <span className="form-label" style={{ marginBottom: 2 }}>Tipe Forecast</span>
               <span style={{ fontWeight: 500, color: "var(--text)" }}>{activeType?.label}</span>
+            </div>
+          </div>
+          <div className="form-row" style={{ marginTop: 14 }}>
+            <div className="form-group" style={{ marginBottom: 0 }}>
+              <label className="form-label">Periode</label>
+              <select
+                className="form-select"
+                value={period}
+                onChange={(e) => setPeriod(e.target.value)}
+              >
+                <option value="daily">Harian</option>
+                <option value="weekly">Mingguan</option>
+                <option value="monthly">Bulanan</option>
+              </select>
+            </div>
+            <div className="form-group" style={{ marginBottom: 0 }}>
+              <label className="form-label">Horizon (1–12)</label>
+              <input
+                type="number"
+                className="form-input"
+                min={1}
+                max={12}
+                value={horizon}
+                onChange={(e) => setHorizon(Math.min(12, Math.max(1, Number(e.target.value))))}
+              />
             </div>
           </div>
         </div>
