@@ -22,11 +22,11 @@
   --text-muted: #8AA89F;
 
   /* Accent — Emerald */
-  --accent: #059669;
-  --accent-hover: #047857;
+  --accent: rgb(37, 99, 235);
+  --accent-hover: rgb(15, 69, 185);
   --accent-light: #ECFDF5;
   --accent-muted: rgba(5, 150, 105, 0.10);
-  --accent-border: rgba(5, 150, 105, 0.22);
+  --accent-border: rgba(37, 99, 235, 0.22);
 
   /* Semantic */
   --success: #059669;
@@ -655,7 +655,7 @@ td {
 .btn-primary {
   background: var(--accent);
   color: white;
-  box-shadow: 0 1px 3px rgba(5, 150, 105, 0.3);
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -936,7 +936,7 @@ td {
 /* ── LOGIN PAGE ─────────────────────────────────────── */
 .login-page {
   min-height: 100dvh;
-  background: linear-gradient(150deg, #081520 0%, #0D2030 45%, #091820 100%);
+  background: linear-gradient(150deg, #ffffff);
   display: flex;
   align-items: center;
   justify-content: center;
