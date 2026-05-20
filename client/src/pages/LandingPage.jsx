@@ -76,14 +76,14 @@ export default function LandingPage() {
         @keyframes pulse-dot { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         .lp-nav-link:hover { color: #0C1F17 !important; }
-        .lp-nav-cta:hover { background: #047857 !important; box-shadow: 0 4px 18px rgba(5,150,105,0.28) !important; }
+        .lp-nav-cta:hover { background: rgb(37, 99, 235) !important; box-shadow: 0 4px 18px rgba(5,150,105,0.28) !important; }
         .lp-feature-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
         .lp-plan-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
         .lp-plan-card-popular:hover { transform: translateY(-3px) !important; }
         .lp-plan-cta:hover { background: #F0FAF6 !important; border-color: rgba(5,150,105,0.3) !important; }
         .lp-plan-cta-popular:hover { background: #F0FAF6 !important; }
         .lp-footer-link:hover { color: #A7C4BB !important; }
-        .lp-cta-primary:hover { background: #047857 !important; transform: translateY(-1px) !important; box-shadow: 0 8px 28px rgba(5,150,105,0.32) !important; }
+        .lp-cta-primary:hover { background: rgb(5, 65, 195) !important; transform: translateY(-1px) !important; box-shadow: 0 8px 28px rgba(5,150,105,0.32) !important; }
         .lp-cta-sec:hover { color: #486058 !important; }
         .lp-stat-item { transition: background 0.15s; }
         .lp-stat-item:hover { background: #F4F7F5 !important; }
@@ -143,7 +143,7 @@ export default function LandingPage() {
           <div style={S.mockCard}>
             <div style={S.mockBar}>
               <div style={{display:"flex",gap:5}}>
-                {["#EF4444","#F59E0B","#10B981"].map(c => (
+                {["#EF4444","#F59E0B","rgb(79, 220, 96)"].map(c => (
                   <span key={c} style={{width:9,height:9,borderRadius:"50%",background:c,display:"block"}} />
                 ))}
               </div>
@@ -153,7 +153,7 @@ export default function LandingPage() {
             <div style={S.mockBody}>
               {/* mini sidebar */}
               <div style={S.mockSidebar}>
-                <div style={{height:7,borderRadius:4,background:"rgba(5,150,105,0.8)",marginBottom:10}} />
+                <div style={{height:7,borderRadius:4,background:"rgba(37, 99, 235,0.8)",marginBottom:10}} />
                 {[1,2,3].map(i => (
                   <div key={i} style={{height:7,borderRadius:4,background:"rgba(255,255,255,0.12)",marginBottom:10}} />
                 ))}
@@ -168,10 +168,10 @@ export default function LandingPage() {
                   ].map(s => (
                     <div key={s.label} style={{
                       background:"white",
-                      border:"1px solid #E2EAE6",
+                      border:"1px solid rgb(255,255,255)",
                       borderRadius:8,
                       padding:"9px 9px",
-                      boxShadow:"0 1px 3px rgba(10,28,20,0.06)",
+                      boxShadow:"0 1px 3px rgba(40,41,59,0.06)",
                       borderLeft:`2.5px solid ${s.color}`,
                     }}>
                       <div style={{fontFamily:"var(--font-display)",fontSize:15,fontWeight:700,color:s.color,lineHeight:1.2}}>{s.val}</div>
@@ -188,7 +188,7 @@ export default function LandingPage() {
                   {CHART_BARS.map((h,i) => (
                     <div key={i} style={{
                       flex:1,borderRadius:2,minHeight:3,height:`${h}%`,
-                      background: i===7 ? "#059669" : "#D1FAE5",
+                      background: i===7 ? "rgb(37, 99, 235)" : "rgb(217, 229, 255)",
                     }} />
                   ))}
                 </div>
@@ -206,14 +206,14 @@ export default function LandingPage() {
                   }}>
                     <span style={{
                       width:5,height:5,borderRadius:"50%",
-                      background:r.ok?"#10B981":"#EF4444",
+                      background:r.ok?"rgb(37, 99, 235)":"#EF4444",
                       display:"block",flexShrink:0,
                     }} />
                     <span style={{flex:1,fontSize:10.5,color:"#486058",fontWeight:500}}>{r.name}</span>
                     <span style={{
                       fontSize:9,fontWeight:600,padding:"2px 6px",borderRadius:9,
                       background:r.ok?"#ECFDF5":"#FEF2F2",
-                      color:r.ok?"#059669":"#DC2626",
+                      color:r.ok?"rgb(37, 99, 235)":"#DC2626",
                     }}>{r.ok?"Normal":"Kritis"}</span>
                   </div>
                 ))}
@@ -303,7 +303,7 @@ export default function LandingPage() {
                 const features = plan.features ? Object.entries(plan.features) : [];
                 return (
                   <div key={plan.id} className={isPopular ? "lp-plan-card-popular" : "lp-plan-card"} style={{
-                    background: isPopular ? "#059669" : "#FFFFFF",
+                    background: isPopular ? "rgb(37, 99, 235)" : "#FFFFFF",
                     border: isPopular ? "none" : "1px solid #DDE8E3",
                     boxShadow: isPopular
                       ? "0 8px 32px rgba(5,150,105,0.28)"
@@ -361,7 +361,7 @@ export default function LandingPage() {
                           <div key={key} style={{display:"flex",alignItems:"center",gap:8,fontSize:12.5,fontFamily:"var(--font-body)"}}>
                             <span style={{
                               color: positive
-                                ? (isPopular ? "#6EE7B7" : "#059669")
+                                ? (isPopular ? "rgb(37, 99, 235)" : "rgb(37, 99, 235)")
                                 : (isPopular ? "rgba(255,255,255,0.3)" : "#CBD5E1"),
                               flexShrink:0,display:"flex",
                             }}>
@@ -388,7 +388,7 @@ export default function LandingPage() {
                         display:"flex", alignItems:"center", justifyContent:"center", gap:6,
                         background: isPopular ? "white" : "#F4F7F5",
                         border: isPopular ? "none" : "1px solid #DDE8E3",
-                        color: isPopular ? "#059669" : "#0C1F17",
+                        color: isPopular ? "rgb(37, 99, 235)" : "#0C1F17",
                         textDecoration:"none",
                         fontSize:13.5, fontWeight:600,
                         fontFamily:"var(--font-body)",
@@ -410,7 +410,7 @@ export default function LandingPage() {
       {/* ── CTA BANNER ── */}
       <section style={{
         position:"relative", zIndex:1,
-        background:"linear-gradient(135deg, #047857 0%, #059669 50%, #10B981 100%)",
+        background:"linear-gradient(135deg, rgb(37, 99, 235) 0%, rgb(50, 104, 221) 50%, rgb(37, 99, 235) 100%)",
         padding:"88px 32px", textAlign:"center",
         overflow:"hidden",
       }}>
@@ -434,7 +434,7 @@ export default function LandingPage() {
           </p>
           <Link to="/register" style={{
             display:"inline-flex", alignItems:"center", gap:8,
-            background:"white", color:"#059669",
+            background:"white", color:"rgb(37, 99, 235)",
             textDecoration:"none",
             fontSize:14, fontWeight:700,
             fontFamily:"var(--font-body)",
@@ -466,7 +466,7 @@ export default function LandingPage() {
           </Link>
           <p style={{
             fontSize:12,
-            color:"#486058",
+            color:"rgb(72, 96, 88)",
             fontFamily:"var(--font-body)",
           }}>© 2025 Inventio. Platform inventaris untuk UMKM Indonesia.</p>
           <div style={{display:"flex",gap:20}}>
@@ -518,7 +518,7 @@ const S = {
   navLogo: { display: "flex", alignItems: "center", gap: 10, textDecoration: "none" },
   logoMark: {
     width: 30, height: 30,
-    background: "linear-gradient(135deg, #059669, #10B981)",
+    background: "linear-gradient(135deg, rgb(37, 99, 235), rgb(37, 99, 235))",
     borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
     boxShadow: "0 2px 8px rgba(5,150,105,0.3)",
   },
@@ -533,7 +533,7 @@ const S = {
     fontFamily: "var(--font-body)",
   },
   navCta: {
-    background: "#059669", color: "white",
+    background: "rgb(37, 99, 235)", color: "white",
     textDecoration: "none", fontSize: 13, fontWeight: 600,
     padding: "8px 18px", borderRadius: 8,
     transition: "all 0.15s",
@@ -550,12 +550,12 @@ const S = {
   heroBadge: {
     display: "inline-flex", alignItems: "center", gap: 8,
     background: "#ECFDF5", border: "1px solid rgba(5,150,105,0.25)",
-    color: "#059669", fontSize: 12, fontWeight: 600,
+    color: "rgb(37, 99, 235)", fontSize: 12, fontWeight: 600,
     padding: "5px 12px", borderRadius: 20, marginBottom: 22, letterSpacing: "0.2px",
     fontFamily: "var(--font-body)",
   },
   badgeDot: {
-    width: 6, height: 6, borderRadius: "50%", background: "#059669",
+    width: 6, height: 6, borderRadius: "50%", background: "rgb(37, 99, 235)",
     display: "block", animation: "pulse-dot 2s ease-in-out infinite",
   },
   heroTitle: {
@@ -563,7 +563,7 @@ const S = {
     color: "#0C1F17", letterSpacing: "-1.5px", lineHeight: 1.06, marginBottom: 18,
   },
   heroAccent: {
-    background: "linear-gradient(135deg, #059669 0%, #10B981 100%)",
+    background: "linear-gradient(135deg, rgb(2, 82, 255) 0%, rgb(37, 99, 235) 100%)",
     WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
   },
   heroSub: {
@@ -573,12 +573,12 @@ const S = {
   heroBtns: { display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" },
   ctaPrimary: {
     display: "inline-flex", alignItems: "center", gap: 8,
-    background: "#059669", color: "white",
+    background: "rgb(37, 99, 235)", color: "white",
     textDecoration: "none", fontSize: 14, fontWeight: 600,
     padding: "12px 24px", borderRadius: 10,
     transition: "all 0.15s", whiteSpace: "nowrap",
     fontFamily: "var(--font-body)",
-    boxShadow: "0 4px 16px rgba(5,150,105,0.25)",
+    boxShadow: "0 4px 16px rgba(37, 99, 235,0.25)",
   },
   ctaSec: {
     color: "#8AA89F", textDecoration: "none",
@@ -613,7 +613,7 @@ const S = {
   statItem: { textAlign: "center", padding: "28px 20px" },
   statVal: {
     fontFamily: "var(--font-display)", fontSize: 30, fontWeight: 800,
-    color: "#059669", letterSpacing: "-1px", lineHeight: 1.1, marginBottom: 5,
+    color: "rgb(37, 99, 235)", letterSpacing: "-1px", lineHeight: 1.1, marginBottom: 5,
   },
   statLbl: { fontSize: 12, color: "#8AA89F", fontWeight: 500, fontFamily: "var(--font-body)" },
   section: { position: "relative", zIndex: 1, padding: "80px 0" },
@@ -622,7 +622,7 @@ const S = {
   sectionTag: {
     display: "inline-block", fontSize: 11, fontWeight: 700,
     letterSpacing: "2.5px", textTransform: "uppercase",
-    color: "#059669", marginBottom: 12,
+    color: "rgb(37, 99, 235)", marginBottom: 12,
     fontFamily: "var(--font-body)",
   },
   sectionH2: {
