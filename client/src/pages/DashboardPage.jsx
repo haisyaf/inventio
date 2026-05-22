@@ -50,8 +50,8 @@ export default function DashboardPage() {
       value: stats.products,
       icon: Package,
       color: "#ECFDF5",
-      iconColor: "#059669",
-      accent: "#059669",
+      iconColor: "rgb(37, 99, 235)",
+      accent: "rgb(37, 99, 235)",
     },
     {
       label: "Total Supplier",
@@ -66,8 +66,8 @@ export default function DashboardPage() {
       value: stats.transactions,
       icon: Receipt,
       color: "#FFF7ED",
-      iconColor: "#C2410C",
-      accent: "#C2410C",
+      iconColor: "#0cc261",
+      accent: "#0cc261",
     },
     {
       label: "Stok Rendah",
