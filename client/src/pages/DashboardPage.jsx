@@ -65,8 +65,8 @@ export default function DashboardPage() {
       label: "Total Transaksi",
       value: stats.transactions,
       icon: Receipt,
-      color: "#FFF7ED",
-      iconColor: "#0cc261",
+      color: "rgb(218, 247, 237)",
+      iconColor: "rgb(12, 194, 97)",
       accent: "#0cc261",
     },
     {
