@@ -104,7 +104,7 @@ export default function ProductsPage() {
   const handleDelete = async () => {
     try {
       await api.del(`/products/${deleteTarget.id}`);
-      setToast({ message: "Produk berhasil dihapus", type: "success" });
+      setToast({ message: "Produk berhasil dihapus", type: "error" });
       setDeleteTarget(null);
       load();
     } catch (e) {
