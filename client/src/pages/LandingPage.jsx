@@ -100,8 +100,12 @@ export default function LandingPage() {
         <div style={S.navInner}>
           <Link to="/" style={S.navLogo}>
             <div style={S.logoMark}>
-              <Boxes size={14} color="white" strokeWidth={2.5} />
+              <img src="/whiteinventioicon.png" alt="Inventio" style={{
+                  width: 18,
+                  height: 18,
+                  objectFit: "contain",}}/>
             </div>
+
             <span style={S.logoText}>Inventio</span>
           </Link>
           <div style={S.navRight}>
@@ -454,9 +458,12 @@ export default function LandingPage() {
           display:"flex",alignItems:"center",justifyContent:"space-between",
           gap:20,flexWrap:"wrap",
         }}>
-          <Link to="/" style={{display:"flex",alignItems:"center",gap:9,textDecoration:"none"}}>
+          <Link to="/" style={S.navLogo}>
             <div style={S.logoMark}>
-              <Boxes size={12} color="white" strokeWidth={2.5} />
+              <img src="/whiteinventioicon.png" alt="Inventio" style={{
+                  width: 18,
+                  height: 18,
+                  objectFit: "contain",}}/>
             </div>
             <span style={{
               fontFamily:"var(--font-display)",
@@ -520,7 +527,7 @@ const S = {
     width: 30, height: 30,
     background: "linear-gradient(135deg, rgb(37, 99, 235), rgb(37, 99, 235))",
     borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center",
-    boxShadow: "0 2px 8px rgba(5,150,105,0.3)",
+    /* boxShadow: "0 2px 8px rgba(5,150,105,0.3)", */
   },
   logoText: {
     fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16,
@@ -539,7 +546,7 @@ const S = {
     transition: "all 0.15s",
     display: "inline-flex", alignItems: "center", gap: 6,
     fontFamily: "var(--font-body)",
-    boxShadow: "0 2px 8px rgba(5,150,105,0.2)",
+    boxShadow: "0 2px 8px rgba(37, 99, 235, 0.2)",
   },
   hero: {
     position: "relative", zIndex: 1,
@@ -549,7 +556,7 @@ const S = {
   heroLeft: {},
   heroBadge: {
     display: "inline-flex", alignItems: "center", gap: 8,
-    background: "#ECFDF5", border: "1px solid rgba(5,150,105,0.25)",
+    background: "#ECFDF5", border: "1px solid rgba(37, 99, 235, 0.25)",
     color: "rgb(37, 99, 235)", fontSize: 12, fontWeight: 600,
     padding: "5px 12px", borderRadius: 20, marginBottom: 22, letterSpacing: "0.2px",
     fontFamily: "var(--font-body)",
