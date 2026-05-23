@@ -78,8 +78,8 @@ export default function LandingPage() {
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         .lp-nav-link:hover { color: #0C1F17 !important; }
         .lp-nav-cta:hover { background: rgb(37, 99, 235) !important; box-shadow: 0 4px 18px rgba(37, 99, 235,0.28) !important; }
-        .lp-feature-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
-        .lp-plan-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
+        .lp-feature-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(37, 99, 235,0.10) !important; }
+        .lp-plan-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(37, 99, 235,0.10) !important; }
         .lp-plan-card-popular:hover { transform: translateY(-3px) !important; }
         .lp-plan-cta:hover { background: #F0FAF6 !important; border-color: rgba(37, 99, 235, 0.3) !important; }
         .lp-plan-cta-popular:hover { background: #F0FAF6 !important; }
@@ -93,8 +93,8 @@ export default function LandingPage() {
       {/* dot grid */}
       <div style={S.dots} />
       {/* ambient orbs */}
-      <div style={{...S.orb, width:700, height:700, background:"radial-gradient(circle,rgba(5,150,105,0.08) 0%,transparent 65%)", top:-200, right:-150}} />
-      <div style={{...S.orb, width:500, height:500, background:"radial-gradient(circle,rgba(5,150,105,0.05) 0%,transparent 65%)", bottom:"8%", left:-180}} />
+      <div style={{...S.orb, width:700, height:700, background:"radial-gradient(circle,rgba(37, 99, 235,0.08) 0%,transparent 65%)", top:-200, right:-150}} />
+      <div style={{...S.orb, width:500, height:500, background:"radial-gradient(circle,rgba(37, 99, 235,0.05) 0%,transparent 65%)", bottom:"8%", left:-180}} />
 
       {/* ── NAV ── */}
       <nav style={S.nav}>
@@ -281,7 +281,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── PRICING ── */}
-      <section style={{...S.section, background:"#EBF1EE"}}>
+      <section style={{...S.section, background:"rgb(238, 243, 255)"}}>
         <div style={S.inner}>
           <div style={S.sectionHead}>
             <p style={S.sectionTag}>Harga</p>
@@ -610,17 +610,17 @@ const S = {
   },
   heroRight: { position: "relative", zIndex: 1 },
   mockCard: {
-    background: "#EEF3EF",
+    background: "rgb(238, 243, 255)",
     border: "1px solid #D2DED8",
     borderRadius: 14, overflow: "hidden",
-    boxShadow: "0 24px 64px rgba(10,28,20,0.14), 0 4px 16px rgba(10,28,20,0.07)",
+    boxShadow: "0 24px 64px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.07)",
   },
   mockBar: {
-    background: "#E1EBE5", borderBottom: "1px solid #D2DED8",
+    background: "rgba(37, 99, 235, 0.06)", borderBottom: "1px solid #D2DED8",
     padding: "9px 14px", display: "flex", alignItems: "center",
     justifyContent: "space-between", gap: 10,
   },
-  mockTitle: { fontSize: 10.5, color: "#8AA89F", fontFamily: "ui-monospace,monospace" },
+  mockTitle: { fontSize: 10.5, color: "rgb(100, 116, 139)", fontFamily: "ui-monospace,monospace" },
   mockBody: { padding: "12px", display: "flex", gap: 10 },
   mockSidebar: {
     width: 32, flexShrink: 0,
