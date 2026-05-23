@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../lib/api";
-import { Boxes, Eye, EyeOff } from "lucide-react";
+import { Boxes, Eye, EyeOff, ArrowLeft, Package } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -33,6 +33,50 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
+
+{/* nav */}
+<nav style={S.nav}>
+  <div style={S.navInner}>
+
+    <Link to="/" style={S.back}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.color = "#475569";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.color = "#94A3B8";
+  }}
+>
+  <ArrowLeft size={14} strokeWidth={2} />
+  Kembali
+</Link>
+
+    <Link to="/" className="login-nav-logo">
+      <div className="login-nav-logo-mark">
+        <img src="/inventioicon.png" alt="Inventio" />
+      </div>
+
+      <span className="login-nav-logo-text">
+        Inventio
+      </span>
+    </Link>
+
+    <p style={{ fontSize: 13, color: "#94A3B8", margin: 0 }}>
+      Belum punya akun?{" "}
+      <Link
+        to="/register"
+        style={{
+          color: "#2563EB",
+          textDecoration: "none",
+          fontWeight: 600,
+        }}
+      >
+        Daftar
+      </Link>
+    </p>
+
+  </div>
+</nav>
+      {/*
       <div
         className="login-bg-orb"
         style={{
@@ -41,7 +85,7 @@ export default function LoginPage() {
           top: -250,
           right: -200,
           background:
-            "radial-gradient(circle, rgba(37, 99, 235,0.14) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(37, 99, 235,0.14) 0%, transparent 100%)",
         }}
       />
       <div
@@ -55,7 +99,7 @@ export default function LoginPage() {
             "radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%)",
         }}
       />
-
+*/}
       <div className="login-card">
         <div className="login-logo">
           <div className="login-logo-mark">
@@ -132,3 +176,80 @@ export default function LoginPage() {
     </div>
   );
 }
+
+const S = {
+  nav: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+
+    zIndex: 100,
+
+    background: "#F7F6F2",
+    backdropFilter: "blur(14px)",
+
+    borderBottom: "1px solid #E2E8F0",
+  },
+
+  navInner: {
+    maxWidth: 1100,
+
+    margin: "0 auto",
+
+    padding: "0 28px",
+
+    height: 56,
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  back: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+
+    color: "#94A3B8",
+
+    textDecoration: "none",
+
+    fontSize: 13,
+    fontWeight: 500,
+  },
+
+  navLogo: {
+    display: "flex",
+    alignItems: "center",
+    gap: 9,
+
+    textDecoration: "none",
+  },
+
+  logoMark: {
+    width: 28,
+    height: 28,
+
+    background:
+      "linear-gradient(135deg,#2563EB,#3B82F6)",
+
+    borderRadius: 7,
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  logoText: {
+    fontFamily: "var(--font-display)",
+
+    fontWeight: 700,
+
+    fontSize: 15.5,
+
+    color: "#0F172A",
+
+    letterSpacing: "-0.3px",
+  },
+};
