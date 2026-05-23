@@ -131,7 +131,7 @@ export default function RegisterPage() {
         .rp-input-wrap:focus-within { border-color: #2563EB !important; }
         .rp-input::placeholder { color: #CBD5E1; }
         .rp-input:focus { outline: none; }
-        .rp-submit:hover:not(:disabled) { background: #1D4ED8 !important; }
+        .rp-submit:hover:not(:disabled) { background: rgb(15, 69, 185) !important; }
         .rp-eye:hover { color: #475569 !important; }
         .rp-back:hover { color: #475569 !important; }
       `}</style>
@@ -146,9 +146,14 @@ export default function RegisterPage() {
             <ArrowLeft size={14} strokeWidth={2} />
             Kembali
           </Link>
-          <Link to="/" style={S.navLogo}>
-            <div style={S.logoMark}><Package size={14} color="white" strokeWidth={2.5} /></div>
-            <span style={S.logoText}>Inventio</span>
+          <Link to="/" className="login-nav-logo">
+            <div className="login-nav-logo-mark">
+              <img src="/inventioicon.png" alt="Inventio" />
+            </div>
+
+            <span className="login-nav-logo-text">
+              Inventio
+            </span>
           </Link>
           <p style={{fontSize:13,color:"#94A3B8",margin:0}}>
             Sudah punya akun?{" "}
