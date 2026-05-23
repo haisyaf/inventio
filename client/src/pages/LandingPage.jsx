@@ -61,6 +61,7 @@ const CHART_BARS = [55, 72, 48, 88, 65, 82, 50, 95, 70, 78];
 export default function LandingPage() {
   const [plans, setPlans] = useState([]);
   const [plansLoading, setPlansLoading] = useState(true);
+  const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
     fetch("/api/plans")
@@ -76,14 +77,14 @@ export default function LandingPage() {
         @keyframes pulse-dot { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
         .lp-nav-link:hover { color: #0C1F17 !important; }
-        .lp-nav-cta:hover { background: rgb(37, 99, 235) !important; box-shadow: 0 4px 18px rgba(5,150,105,0.28) !important; }
+        .lp-nav-cta:hover { background: rgb(37, 99, 235) !important; box-shadow: 0 4px 18px rgba(37, 99, 235,0.28) !important; }
         .lp-feature-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
         .lp-plan-card:hover { transform: translateY(-3px) !important; box-shadow: 0 8px 24px rgba(10,28,20,0.10) !important; }
         .lp-plan-card-popular:hover { transform: translateY(-3px) !important; }
-        .lp-plan-cta:hover { background: #F0FAF6 !important; border-color: rgba(5,150,105,0.3) !important; }
+        .lp-plan-cta:hover { background: #F0FAF6 !important; border-color: rgba(37, 99, 235, 0.3) !important; }
         .lp-plan-cta-popular:hover { background: #F0FAF6 !important; }
         .lp-footer-link:hover { color: #A7C4BB !important; }
-        .lp-cta-primary:hover { background: rgb(5, 65, 195) !important; transform: translateY(-1px) !important; box-shadow: 0 8px 28px rgba(5,150,105,0.32) !important; }
+        .lp-cta-primary:hover { background: rgb(5, 65, 195) !important; transform: translateY(-1px) !important; box-shadow: 0 8px 28px rgba(37, 99, 235, 0.32) !important; }
         .lp-cta-sec:hover { color: #486058 !important; }
         .lp-stat-item { transition: background 0.15s; }
         .lp-stat-item:hover { background: #F4F7F5 !important; }
@@ -121,7 +122,7 @@ export default function LandingPage() {
       <section style={S.hero}>
         <div style={S.heroLeft}>
           <div style={S.heroBadge}>
-            <span style={S.badgeDot} />
+            {/*<span style={S.badgeDot} />*/}
             Platform Inventaris #1 untuk UMKM Indonesia
           </div>
           <h1 style={S.heroTitle}>
@@ -436,16 +437,31 @@ export default function LandingPage() {
           <p style={{fontSize:15.5,color:"rgba(255,255,255,0.78)",lineHeight:1.65,fontFamily:"var(--font-body)"}}>
             Bergabung dengan ratusan UMKM yang sudah mempercayai Inventio untuk kelola bisnis mereka.
           </p>
-          <Link to="/register" style={{
-            display:"inline-flex", alignItems:"center", gap:8,
-            background:"white", color:"rgb(37, 99, 235)",
-            textDecoration:"none",
-            fontSize:14, fontWeight:700,
-            fontFamily:"var(--font-body)",
-            padding:"13px 28px", borderRadius:10,
-            boxShadow:"0 4px 20px rgba(0,0,0,0.15)",
-            transition:"all 0.15s",
-          }}>
+          <Link to="/register"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{
+              display:"inline-flex",
+              alignItems:"center",
+              gap:8,
+
+              background: hovered ? "rgb(23, 36, 62)" : "white",
+              color: hovered ? "white" : "rgb(37, 99, 235)",
+
+              textDecoration:"none",
+              fontSize:14,
+              fontWeight:700,
+              fontFamily:"var(--font-body)",
+              padding:"13px 28px",
+              borderRadius:10,
+
+              transform: hovered ? "translateY(-1px)" : "translateY(0)",
+
+              boxShadow: hovered
+                ? "0 8px 24px rgba(0, 0, 0, 0.35)"
+                : "0 4px 20px rgba(0,0,0,0.15)",
+
+              transition:"all 0.15s",}}>
             Daftar Gratis Sekarang <ArrowRight size={15} strokeWidth={2.5} />
           </Link>
         </div>
@@ -556,7 +572,7 @@ const S = {
   heroLeft: {},
   heroBadge: {
     display: "inline-flex", alignItems: "center", gap: 8,
-    background: "#ECFDF5", border: "1px solid rgba(37, 99, 235, 0.25)",
+    background: "rgb(230, 238, 255)", border: "1px solid rgba(37, 99, 235, 0.25)",
     color: "rgb(37, 99, 235)", fontSize: 12, fontWeight: 600,
     padding: "5px 12px", borderRadius: 20, marginBottom: 22, letterSpacing: "0.2px",
     fontFamily: "var(--font-body)",
