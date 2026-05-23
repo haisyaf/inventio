@@ -59,6 +59,7 @@ export default function LoginPage() {
       <div className="login-card">
         <div className="login-logo">
           <div className="login-logo-mark">
+            <img src="/inventioicon.png" alt="Inventio Icon" />
             <Boxes size={20} color="white" strokeWidth={2} />
           </div>
           <span className="login-logo-text">Inventio</span>

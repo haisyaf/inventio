@@ -49,6 +49,7 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <div className="sidebar-logo-mark">
+          <img src="/inventioicon.png" alt="Inventio Icon" />
           <Boxes size={17} color="white" strokeWidth={2.2} />
         </div>
         <div>
