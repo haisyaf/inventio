@@ -1,5 +1,22 @@
 const prisma = require("../lib/prisma");
 
+const parseForecastDate = (dateStr) => {
+  if (!dateStr) return null;
+  // Weekly: YYYY-WWnnZ → Monday of that ISO week
+  const weekMatch = dateStr.match(/^(\d{4})-W(\d{2})Z?$/);
+  if (weekMatch) {
+    const year = parseInt(weekMatch[1]);
+    const week = parseInt(weekMatch[2]);
+    const jan4 = new Date(Date.UTC(year, 0, 4));
+    const jan4Day = jan4.getUTCDay() || 7;
+    const monday = new Date(jan4);
+    monday.setUTCDate(jan4.getUTCDate() - jan4Day + 1 + (week - 1) * 7);
+    return monday;
+  }
+  const d = new Date(dateStr);
+  return isNaN(d.getTime()) ? null : d;
+};
+
 const FORECAST_TYPE_MAP = {
   stock_demand: "STOCK_DEMAND",
   sales_revenue: "SALES_REVENUE",
@@ -199,13 +216,18 @@ exports.requestForecast = async (req, res) => {
         ? result.forecast
         : [];
       for (const forecast of forecastList) {
+        const forecastDate = parseForecastDate(forecast.forecastDate);
+        if (!forecastDate) {
+          console.error("Skipping invalid forecastDate:", forecast.forecastDate);
+          continue;
+        }
         forecastRows.push({
           tenantId,
           productId: result.itemId,
           type: normalizedType,
           forecastValue: forecast.forecastValue,
           unit: forecast.unit || DEFAULT_UNIT_MAP[normalizedType],
-          forecastDate: new Date(forecast.forecastDate),
+          forecastDate,
         });
       }
     }
