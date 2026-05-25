@@ -93,20 +93,14 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/tenants/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          tenantName: form.tenantName,
-          tenantSlug: form.tenantSlug,
-          userName: form.userName,
-          userEmail: form.userEmail,
-          password: form.password,
-          planId: selectedPlanId,
-        }),
+      const data = await api.post("/tenants/register", {
+        tenantName: form.tenantName,
+        tenantSlug: form.tenantSlug,
+        userName: form.userName,
+        userEmail: form.userEmail,
+        password: form.password,
+        planId: selectedPlanId,
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Registrasi gagal");
 
       login({ userId: data.userId, tenantId: data.tenantId, tenantSlug: data.tenantSlug, role: "ADMIN" }, data.token);
 
