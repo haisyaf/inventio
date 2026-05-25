@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../lib/api";
 import {
   Package, CheckCircle2, XCircle, Zap,
   Eye, EyeOff, Building2, User, Mail, Lock,
@@ -56,8 +57,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/plans")
-      .then(r => r.json())
+    api.get("/plans")
       .then(d => {
         const p = d.plans || [];
         setPlans(p);
