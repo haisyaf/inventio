@@ -38,8 +38,9 @@ services:
   - type: web
     name: inventio-frontend
     runtime: static
-    buildCommand: cd client && npm ci && npm run build
-    staticPublishPath: client/dist
+    rootDir: client
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
     routes:
       - type: rewrite
         source: /*
