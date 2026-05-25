@@ -10,7 +10,7 @@ const swaggerSpec = swaggerJSDoc({
       version: "1.0.0",
       description: "Inventio backend API documentation",
     },
-    servers: [{ url: `http://localhost:${port}` }],
+    servers: [{ url: process.env.API_URL || `http://localhost:${port}` }],
     tags: [
       { name: "Auth" },
       { name: "Tenants" },
