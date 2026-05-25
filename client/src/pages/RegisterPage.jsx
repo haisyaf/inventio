@@ -65,6 +65,7 @@ export default function RegisterPage() {
       })
       .catch(() => {})
       .finally(() => setPlansLoading(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setField = (key, val) => setForm(f => ({ ...f, [key]: val }));
