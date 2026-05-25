@@ -45,6 +45,10 @@ app.get("/", (req, res) => {
   res.send("Inventio API is running!");
 });
 
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 const PORT = process.env.BE_PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

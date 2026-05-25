@@ -1,82 +1,54 @@
-name: Safe Simple CI
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  lint-frontend:
+    name: Lint & Build Frontend
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
-          extensions: mbstring, xml, curl, zip, pdo, sqlite, gd, fileinfo
-
-      - name: Install PHP dependencies
-        run: |
-          if [ -f composer.json ]; then
-            echo "Composer file found, installing dependencies..."
-            composer install --no-interaction --prefer-dist --optimize-autoloader
-          else
-            echo "No composer.json found, skipping composer install"
-          fi
-
-      - name: Setup Laravel environment
-        run: |
-          if [ -f artisan ]; then
-            echo "Laravel project detected"
-            cp .env.example .env 2>/dev/null || echo "APP_KEY=" > .env
-            echo "DB_CONNECTION=sqlite" >> .env
-            echo "DB_DATABASE=:memory:" >> .env
-            php artisan key:generate
-          else
-            echo "No artisan file found, skipping Laravel setup"
-          fi
-
-      - name: Run Laravel Migrations
-        run: |
-          if [ -f artisan ]; then
-            echo "Running migrations..."
-            php artisan migrate --force
-          else
-            echo "No artisan file found, skipping migrations"
-          fi
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
 
-      - name: Install frontend dependencies
-        run: |
-          if [ -f package.json ]; then
-            echo "Installing npm dependencies..."
-            npm ci
-          else
-            echo "No package.json found, skipping npm install"
-          fi
+      - name: Install
+        working-directory: client
+        run: npm ci
 
-      - name: Build frontend assets
-        run: |
-          if [ -f package.json ]; then
-            echo "Building frontend assets..."
-            npm run build
-          else
-            echo "No package.json found, skipping build"
-          fi
+      - name: Lint
+        working-directory: client
+        run: npm run lint
 
-      - name: Run PHPUnit tests
-        run: |
-          if [ -f phpunit.xml ] || [ -f phpunit.xml.dist ]; then
-            echo "Running PHPUnit tests..."
-            php artisan test
-          else
-            echo "No PHPUnit config found, skipping tests"
-          fi
+      - name: Build
+        working-directory: client
+        run: npm run build
+        env:
+          VITE_API_URL: https://placeholder.onrender.com
+
+  validate-backend:
+    name: Validate Backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install
+        working-directory: server
+        run: npm ci
+
+      - name: Generate Prisma client
+        working-directory: server
+        run: npx prisma generate

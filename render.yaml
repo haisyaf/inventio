@@ -1,0 +1,51 @@
+services:
+  # Backend — Docker container
+  - type: web
+    name: inventio-backend
+    runtime: docker
+    dockerfilePath: server/Dockerfile
+    dockerContext: server
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: BE_PORT
+        value: 5000
+      - key: MIDTRANS_IS_PRODUCTION
+        value: false
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      # Set these in Render dashboard (secret values):
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: MIDTRANS_SERVER_KEY
+        sync: false
+      - key: MIDTRANS_CLIENT_KEY
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: AI_API_BASE_URL
+        sync: false
+
+  # Frontend — Static Site
+  - type: web
+    name: inventio-frontend
+    runtime: static
+    buildCommand: cd client && npm ci && npm run build
+    staticPublishPath: client/dist
+    plan: free
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Set this after backend deployed — use backend's Render URL
+      - key: VITE_API_URL
+        sync: false
