@@ -73,6 +73,12 @@ const buildTransactionFilter = (filters) => {
   return transactionFilter;
 };
 
+const FORECAST_DIRECTION_MAP = {
+  STOCK_DEMAND: "OUT",
+  SALES_REVENUE: "OUT",
+  PURCHASE_COST: "IN",
+};
+
 const getHistoricalData = async ({
   forecastType,
   items,
@@ -87,7 +93,10 @@ const getHistoricalData = async ({
   const results = [];
 
   for (const item of items) {
-    const itemFilters = item.filters || globalFilters || {};
+    const itemFilters = { ...(item.filters || globalFilters || {}) };
+    if (!itemFilters.direction) {
+      itemFilters.direction = FORECAST_DIRECTION_MAP[normalizedType];
+    }
     const transactionFilter = buildTransactionFilter(itemFilters);
 
     const transactionItems = await prisma.transactionItem.findMany({
@@ -114,10 +123,17 @@ const getHistoricalData = async ({
       },
     });
 
-    const historicalData = transactionItems.map((row) => ({
-      date: row.transaction.date,
-      value: (normalizedType === "SALES_REVENUE" || normalizedType === "PURCHASE_COST") ? row.subtotal : row.quantity,
-    }));
+    const dailyMap = {};
+    for (const row of transactionItems) {
+      const dateKey = row.transaction.date.toISOString().split("T")[0];
+      if (!dailyMap[dateKey]) dailyMap[dateKey] = 0;
+      dailyMap[dateKey] +=
+        normalizedType === "STOCK_DEMAND" ? row.quantity : row.subtotal;
+    }
+
+    const historicalData = Object.entries(dailyMap)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([date, value]) => ({ date: `${date}T00:00:00Z`, value }));
 
     results.push({
       itemId: item.itemId,
